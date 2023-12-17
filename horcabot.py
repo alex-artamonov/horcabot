@@ -65,7 +65,7 @@ def get_input(message: telebot.types.Message):
     letter = message.text
     try:
         response = game.get_response(letter)
-        output = "<pre>" + response + "</pre>"
+        output = "<pre><code>" + response + "</code></pre>"
         bot.send_message(
             game.id,
             output,
