@@ -80,8 +80,7 @@ def get_input(message: telebot.types.Message):
     except ValueError as e:
         bot.send_message(game.id, e, parse_mode=ParseMode.HTML)
 
-
-if __name__ == "__main__":
+def start_bot():
     create_command_buttons()
     print(bot.get_me())
     bot.polling(non_stop=True)
