@@ -68,7 +68,7 @@ class Hangman:
 
     def start(self):
         lst = []
-
+        self.used = []
         with open(FILENAME) as read:
             for line in read:
                 lst.append(line.strip())
@@ -87,10 +87,7 @@ class Hangman:
                         mask_lst[c] = letter
                     self.display("".join(mask_lst))
                     if not "-" in mask_lst:
-                        if self.play_again():
-                            self.start()
-                        else:
-                            return
+                        break
                 else:
                     self.used.append(letter)
                     self.display(self.imgs[image_counter])
@@ -98,10 +95,11 @@ class Hangman:
                     image_counter += 1
                     if image_counter == len(self.imgs):
                         self.display(word)
-                        if self.play_again():
-                            self.start()
-                        else:
-                            return
+                        break
+        if self.play_again():
+            self.start()
+        else:
+            return
 
     def play_again(self):
         while True:
