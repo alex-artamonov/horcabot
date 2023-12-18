@@ -1,5 +1,5 @@
 from random import choice
-import pseudographics as pg
+
 
 # imgs = [s06, s05, s04, s03, s02, s01, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9]
 # imgs = [s0, s1, s2, s3, s4, s5, s6, s7, s8, s9]
@@ -10,11 +10,13 @@ FILENAME = "words.txt"
 LINK = "https://www.wordreference.com/es/en/translation.asp?spen="
 
 class Hangman:
-    def __init__(self, id: int) -> None:
+    def __init__(self, id: int=0) -> None:
+        print('hi from __init__')
         self.id = id
         self.mistake_nbr = 0
         self.mask = "----"
         self.used = []
+        print(self.used)
         self.word = self._get_word()
         self.finished = False
         self.imgs = [pg.s0, pg.s1, pg.s2, pg.s3, pg.s4,
@@ -54,7 +56,7 @@ class Hangman:
             return self.mask
             if not "-" in mask_lst:
                 if self.play_again():
-                    self.start()
+                    self.__init__()
                 else:
                     return
         else:
@@ -67,8 +69,9 @@ class Hangman:
         return output
 
     def start(self):
+        print('hi from start')
         lst = []
-
+        self.used = []
         with open(FILENAME) as read:
             for line in read:
                 lst.append(line.strip())
@@ -87,10 +90,7 @@ class Hangman:
                         mask_lst[c] = letter
                     self.display("".join(mask_lst))
                     if not "-" in mask_lst:
-                        if self.play_again():
-                            self.start()
-                        else:
-                            return
+                        self.try_restart()
                 else:
                     self.used.append(letter)
                     self.display(self.imgs[image_counter])
@@ -98,22 +98,27 @@ class Hangman:
                     image_counter += 1
                     if image_counter == len(self.imgs):
                         self.display(word)
-                        if self.play_again():
-                            self.start()
-                        else:
-                            return
+                        self.try_restart()
 
     def play_again(self):
         while True:
             reply = self.get_letter('Want to play again? ("Y/n")\n')
             if reply.upper() in ("Y", ""):
+                print('hi from play_again/if')
                 return True
             elif reply.upper() == "N":
                 return False
+            
+    def try_restart(self):
+        if self.play_again():
+            self.start()
+        else:
+            exit
 
 
 if __name__ == "__main__":
-    game = Hangman(1)
+    import pseudographics_cli as pg
+    game = Hangman()
     game.input = input
     game.display = print
     game.start()
