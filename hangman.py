@@ -1,5 +1,5 @@
 from random import choice
-import pseu as pg
+import pseudographics as pg
 
 # imgs = [s06, s05, s04, s03, s02, s01, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9]
 # imgs = [s0, s1, s2, s3, s4, s5, s6, s7, s8, s9]
