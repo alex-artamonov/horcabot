@@ -13,6 +13,7 @@ bot = telebot.TeleBot(TOKEN)
 commands = [
     "start",
     "restart",
+    "stop",
 ]
 
 game_dict = {}
@@ -48,7 +49,8 @@ def greet(message):
         output = f"\nTu objetivo es adivinar una palabra de 4 letras. Pulsa una letra."
         game_init(cid, message, output)
     elif message.text == "/stop":
-        bot.send_message(message.chat.id, "stop game", parse_mode=ParseMode.HTML)
+        bot.send_message(message.chat.id, "¡Hasta luego!", parse_mode=ParseMode.HTML)
+        game_dict[cid] = None
 
 
 @bot.message_handler(content_types=["text"])
