@@ -11,12 +11,10 @@ LINK = "https://www.wordreference.com/es/en/translation.asp?spen="
 
 class Hangman:
     def __init__(self, id: int=0) -> None:
-        print('hi from __init__')
         self.id = id
         self.mistake_nbr = 0
         self.mask = "----"
         self.used = []
-        print(self.used)
         self.word = self._get_word()
         self.finished = False
         self.imgs = [pg.s0, pg.s1, pg.s2, pg.s3, pg.s4,
@@ -54,11 +52,6 @@ class Hangman:
                 output = "Has ganado!\n" + "<b>" + self.word + "</b>"
                 return output
             return self.mask
-            if not "-" in mask_lst:
-                if self.play_again():
-                    self.__init__()
-                else:
-                    return
         else:
             if len(self.imgs) > self.mistake_nbr + 1:
                 output = self.imgs[self.mistake_nbr] + "\n" + self.mask
@@ -69,7 +62,6 @@ class Hangman:
         return output
 
     def start(self):
-        print('hi from start')
         lst = []
         self.used = []
         with open(FILENAME) as read:
@@ -82,23 +74,26 @@ class Hangman:
             letter = self.get_letter()
             if letter in self.used:
                 self.display("Inténtalo de nuevo, esta letra ya ha sido utilizada.")
+            if letter in word:
+                self.used.append(letter)
+                lst = [i for i in range(len(word)) if word[i] == letter]
+                for c in lst:
+                    mask_lst[c] = letter
+                self.display("".join(mask_lst))
+                if not "-" in mask_lst:
+                    break
             else:
-                if letter in word:
-                    self.used.append(letter)
-                    lst = [i for i in range(len(word)) if word[i] == letter]
-                    for c in lst:
-                        mask_lst[c] = letter
-                    self.display("".join(mask_lst))
-                    if not "-" in mask_lst:
-                        self.try_restart()
-                else:
-                    self.used.append(letter)
-                    self.display(self.imgs[image_counter])
-                    self.display("".join(mask_lst))
-                    image_counter += 1
-                    if image_counter == len(self.imgs):
-                        self.display(word)
-                        self.try_restart()
+                self.used.append(letter)
+                self.display(self.imgs[image_counter])
+                self.display("".join(mask_lst))
+                image_counter += 1
+                if image_counter == len(self.imgs):
+                    self.display(word)
+                    break
+        if self.play_again():
+            self.start()
+        else:
+            return
 
     def play_again(self):
         while True:
@@ -109,11 +104,12 @@ class Hangman:
             elif reply.upper() == "N":
                 return False
             
-    def try_restart(self):
-        if self.play_again():
-            self.start()
-        else:
-            exit
+    # def try_restart(self):
+    #     if self.play_again():
+    #         self.start()
+    #     else:
+    #         print('hi from try_restart else:')
+    #         exit
 
 
 if __name__ == "__main__":
