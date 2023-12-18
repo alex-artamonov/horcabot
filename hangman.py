@@ -10,7 +10,7 @@ FILENAME = "words.txt"
 LINK = "https://www.wordreference.com/es/en/translation.asp?spen="
 
 class Hangman:
-    def __init__(self, id: int) -> None:
+    def __init__(self, id: int=0) -> None:
         self.id = id
         self.mistake_nbr = 0
         self.mask = "----"
@@ -113,7 +113,7 @@ class Hangman:
 
 
 if __name__ == "__main__":
-    game = Hangman(1)
+    game = Hangman()
     game.input = input
     game.display = print
     game.start()
