@@ -44,9 +44,9 @@ class Hangman:
         return output
 
     def get_response(self, letter: str):
-        letter = letter.upper()
         if self.finished:
             return "Juego terminado"
+        letter = letter.upper()
         if len(letter) > 1:
             raise ValueError("Sólo una letra!")
         if letter in self.used:
@@ -64,11 +64,6 @@ class Hangman:
                 output = "Has ganado!\n" + "<b>" + self.word + "</b>"
                 return output
             return self.mask
-            if not "-" in mask_lst:
-                if self.play_again():
-                    self.start()
-                else:
-                    return
         else:
             if len(self.imgs) > self.mistake_nbr + 1:
                 output = self.imgs[self.mistake_nbr] + "\n" + self.mask
@@ -78,41 +73,14 @@ class Hangman:
             self.mistake_nbr += 1
         return output
 
-    def start(self):
-        # lst = []
-        self.used = []
-        # with open(FILENAME) as read:
-        #     for line in read:
-        #         lst.append(line.strip())
-        # self.word = choice(lst)
-        mask_lst = list(self.mask)
-        image_counter = 0
-        while True:
+    def play(self):
+        while not self.finished:
             letter = self.get_letter()
-            if letter in self.used:
-                self.display("Inténtalo de nuevo, esta letra ya ha sido utilizada.")
-            else:
-                if letter in self.word:
-                    self.used.append(letter)
-                    lst = [i for i in range(len(self.word)) if self.word[i] == letter]
-                    for c in lst:
-                        mask_lst[c] = letter
-                    self.display("".join(mask_lst))
-                    if not "-" in mask_lst:
-                        break
-                else:
-                    self.used.append(letter)
-                    self.display(self.imgs[image_counter])
-                    self.display("".join(mask_lst))
-                    image_counter += 1
-                    if image_counter == len(self.imgs):
-                        self.display(self.word)
-                        break
-        if self.play_again():
-            self.start()
-        else:
-            return
-
+            try:
+                game.display(game.get_response(letter))
+            except ValueError as e:
+                game.display(e)
+    
     def play_again(self):
         while True:
             reply = self.get_letter('Want to play again? ("Y/n")\n')
@@ -124,6 +92,8 @@ class Hangman:
 
 if __name__ == "__main__":
     game = Hangman()
+    # game.finished = True
     game.input = input
     game.display = print
-    game.start()
+    # game.start()
+    game.play()
