@@ -8,7 +8,12 @@ import pseudographics as pg
 
 FILENAME = "words.txt"
 LINK = "https://www.wordreference.com/es/en/translation.asp?spen="
-
+ACENTOS = {'e': 'eé', 
+           'a': 'aá',
+           'u': 'uüú',
+           'n': 'nñ',
+           'i': 'ií',
+           'o': 'oó'}
 class Hangman:
     def __init__(self, id: int=0) -> None:
         self.id = id
@@ -19,6 +24,13 @@ class Hangman:
         self.finished = False
         self.imgs = [pg.s0, pg.s1, pg.s2, pg.s3, pg.s4,
         pg.s5, pg.s6, pg.s7, pg.s8, pg.s9, pg.s10, pg.s11]
+        print(self.word)
+
+
+    
+    def check_letter(self, letter):
+        if letter in 'aeioun':
+            pass
 
     def _get_word(self):
         lst = []
@@ -67,12 +79,12 @@ class Hangman:
         return output
 
     def start(self):
-        lst = []
+        # lst = []
         self.used = []
-        with open(FILENAME) as read:
-            for line in read:
-                lst.append(line.strip())
-        word = choice(lst)
+        # with open(FILENAME) as read:
+        #     for line in read:
+        #         lst.append(line.strip())
+        # self.word = choice(lst)
         mask_lst = list(self.mask)
         image_counter = 0
         while True:
@@ -80,9 +92,9 @@ class Hangman:
             if letter in self.used:
                 self.display("Inténtalo de nuevo, esta letra ya ha sido utilizada.")
             else:
-                if letter in word:
+                if letter in self.word:
                     self.used.append(letter)
-                    lst = [i for i in range(len(word)) if word[i] == letter]
+                    lst = [i for i in range(len(self.word)) if self.word[i] == letter]
                     for c in lst:
                         mask_lst[c] = letter
                     self.display("".join(mask_lst))
@@ -94,7 +106,7 @@ class Hangman:
                     self.display("".join(mask_lst))
                     image_counter += 1
                     if image_counter == len(self.imgs):
-                        self.display(word)
+                        self.display(self.word)
                         break
         if self.play_again():
             self.start()
