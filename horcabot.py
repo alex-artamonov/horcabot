@@ -4,7 +4,7 @@ from telebot import types
 import hangman as hm
 import os
 
-secrets = 'secrets.txt'
+secrets = "secrets.txt"
 # with open(secrets) as file:
 #     TOKEN = file.readline().strip()
 TOKEN = os.environ["HORCABOT"]
@@ -81,6 +81,7 @@ def get_input(message: telebot.types.Message):
             bot.send_message(message.chat.id, parajugar)
     except ValueError as e:
         bot.send_message(game.id, e, parse_mode=ParseMode.HTML)
+
 
 def start_bot():
     create_command_buttons()
