@@ -9,27 +9,8 @@ import pseudographics as pg
 FILENAME = "words.txt"
 LINK = "https://www.wordreference.com/es/en/translation.asp?spen="
 ACENTOS = {"E": "eé", "A": "aá", "U": "uüú", "N": "nñ", "I": "ií", "O": "oó"}
+
 ABC_DICT = {
-    "B": "B",
-    "C": "C",
-    "D": "D",
-    "F": "F",
-    "G": "G",
-    "H": "H",
-    "J": "J",
-    "K": "K",
-    "L": "L",
-    "M": "M",
-    "P": "P",
-    "Q": "Q",
-    "R": "R",
-    "S": "S",
-    "T": "T",
-    "V": "V",
-    "W": "W",
-    "X": "X",
-    "Y": "Y",
-    "Z": "Z",
     "E": "EÉ",
     "A": "AÁ",
     "U": "UÜÚ",
@@ -40,6 +21,9 @@ ABC_DICT = {
 
 ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÜÚÑÍÓ"
 
+for c in ABC:
+    if not c in ABC_DICT:
+        ABC_DICT[c] = c
 
 class Hangman:
     def __init__(self, id: int = 0):
